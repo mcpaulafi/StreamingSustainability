@@ -1,0 +1,15 @@
+[project]
+name = "measurementscript"
+version = "0.1.0"
+description = "Sustainability CS II project"
+authors = [
+    {name = "Paula Meuronen",email = "paula.meuronen@helsinki.fi"}
+]
+requires-python = ">=3.12"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
