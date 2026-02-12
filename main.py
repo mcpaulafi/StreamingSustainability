@@ -5,15 +5,19 @@ import os
 from pathlib import Path
 
 def start_experiment(experiment1: experiment.Experiment):
-    if input("Type 'y' to begin experiment: ").strip().lower() != "y":
+    """Starts the experiment after user confirmation."""
+    if input("Type 'y' to begin experiment, 'n' to exit: ").strip().lower() != "y":
         print("Experiment not started. Exiting.")
         return
-    else:
-        measurement.execute_experiment(experiment1)
-        save_results(input("Type 'y' to save results: ").strip().lower(), experiment1)
+    measurement.execute_experiment(experiment1)
+    save_results(input("Type 'y' to save results: ").strip().lower(), experiment1)
     return
 
 def save_results(input_value: str, experiment1: experiment.Experiment):
+    """Saves the experiment results to a file if user confirms.
+    Saves results in a 'results' directory with a filename based on the experiment ID.
+    Saves experiment class attributes and results in a human-readable format."""
+    #TODO: Save as JSON or CSV for easier parsing later.
     if input_value.strip().lower() != "y":
         print("Results not saved.")
         return
@@ -24,20 +28,23 @@ def save_results(input_value: str, experiment1: experiment.Experiment):
         f.write(str(experiment1.results()))
         print(f"Results saved to {filename}")
 
+# Main execution flow
+# Ask user to select experiment parameters.
+#TODO: Add error handling for user input and file operations.
 experiment1 = experiment.Experiment()
 experiment1.set_type(settings.choose_experiment_type())
 experiment1.set_resolution(settings.choose_resolution())
 experiment1.set_battery(settings.choose_battery())
 experiment1.set_network(settings.choose_network())
 experiment1.set_length(settings.choose_length())
-#experiment1.set_intervals(choose_intervals())
+
+# Print selected parameters for confirmation before starting the experiment.
 print("Selected experiment type:", experiment1.type)
 print("Selected resolution:", experiment1.resolution)
 print("Selected battery:", experiment1.battery)
 print("Selected network:", experiment1.network)
 print("Selected length:", experiment1.length)
-# Not implemented yet
-#print("Selected intervals:", experiment1.intervals, "-", settings.interval_types.get(list(settings.interval_types.keys())[list(settings.interval_types.values()).index(experiment1.intervals)]))
+
 print("\nREADY TO START EXPERIMENT. Start streaming.")
 
 start_experiment(experiment1)
