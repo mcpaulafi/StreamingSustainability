@@ -28,7 +28,7 @@ def execute_experiment(experiment1):
 
     wait_time = int(experiment1.length) * 60
     print(f"Running experiment for {wait_time} seconds...")
-    subprocess.run(f"sleep {wait_time}", shell=True)
+    subprocess.run(f"sleep {wait_time}", shell=True, check=True)
 
     experiment1.set_time_end(
         int(subprocess.check_output(time_value_command, shell=True).decode().strip())

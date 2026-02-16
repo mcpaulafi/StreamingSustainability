@@ -8,13 +8,13 @@ resolution_types = {1: "Lowest", 2: "Middle", 3: "Highest"}
 length_types = {1: "1 minute", 2: "2 minutes", 5: "5 minutes"}
 #interval_types = {10: "10 seconds", 20: "20 seconds"}
 
-# Values retrieved from the system 
+# Values retrieved from the system
 battery_types = {}
 network_types = {}
 
 def find_energy_sources():
     """Find out energy sources of the computer"""
-    result = subprocess.run(["upower", "-e"], capture_output=True, text=True)
+    result = subprocess.run(["upower", "-e"], capture_output=True, text=True, check=False)
     if result.returncode != 0:
         print("Error finding energy sources:", result.stderr)
         return
@@ -113,18 +113,3 @@ def choose_length() -> str:
         if choice in length_types:
             return choice
         print("Choice not in available length types; try again.")
-#This is not used in current version
-def choose_intervals() -> str:
-    """Prompts the user to select measurement intervals from the available options."""
-    print("Select measurement intervals:")
-    for k, v in interval_types.items():
-        print(f"  {k}: {v}")
-    while True:
-        try:
-            choice = int(input("Enter number: ").strip())
-        except ValueError:
-            print("Please enter a valid number.")
-            continue
-        if choice in interval_types:
-            return choice
-        print("Choice not in available interval types; try again.")
