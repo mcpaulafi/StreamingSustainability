@@ -43,3 +43,12 @@ Run to start
 
 ## Documentation
 See the [documentation file](documentation.md).
+
+## Tests
+Run Coverage for Unittests
+
+    coverage run --branch -m pytest src
+
+Make report
+
+    coverage report -m
