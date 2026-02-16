@@ -5,8 +5,11 @@ description = "Sustainability CS II project"
 authors = [
     {name = "Paula Meuronen",email = "paula.meuronen@helsinki.fi"}
 ]
+readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "pytest (>=9.0.2,<10.0.0)",
+    "path (>=17.1.1,<18.0.0)"
 ]
 
 
