@@ -11,7 +11,6 @@ class Experiment:
         self.battery = None
         self.network = None
         self.length = None
-        self.intervals = None
         self.time_start = 0
         self.time_end = 0
         self.battery_start = 0
@@ -33,9 +32,6 @@ class Experiment:
 
     def set_length(self, length):
         self.length = length
-
-    def set_intervals(self, intervals):
-        self.intervals = intervals
 
     def set_time_start(self, time_start):
         self.time_start = time_start
@@ -69,7 +65,6 @@ class Experiment:
             "battery": settings.battery_types.get(self.battery, "Unknown"),
             "network": settings.network_types.get(self.network, "Unknown"),
             "length": settings.length_types.get(self.length, "Unknown"),
-            "intervals": self.intervals,
             "time_start": self.time_start,
             "time_end": self.time_end,
             "battery_start": self.battery_start,
@@ -90,7 +85,6 @@ class Experiment:
         \nbattery={self.battery}, \
         \nnetwork={self.network}, \
         \nlength={self.length}, \
-        \nintervals={self.intervals}, \
         \ntime_start={time_start}, \
         \nbattery_consumption={battery_consumption}, \
         \nnetwork_consumption={network_consumption})"
