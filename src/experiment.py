@@ -1,5 +1,6 @@
 import uuid
 import settings
+# pylint: disable=too-many-instance-attributes
 
 class Experiment:
     """Parent class for all experiments. Contains common methods and attributes."""
@@ -18,8 +19,8 @@ class Experiment:
         self.network_start = 0
         self.network_end = 0
 
-    def set_type(self, type):
-        self.type = type
+    def set_type(self, type1):
+        self.type = type1
 
     def set_resolution(self, resolution):
         self.resolution = resolution
