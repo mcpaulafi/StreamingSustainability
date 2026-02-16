@@ -1,6 +1,6 @@
 import unittest
-from src import experiment
-from src import settings
+import experiment
+import settings
 
 class TestExperiment(unittest.TestCase):
     def setUp(self):
