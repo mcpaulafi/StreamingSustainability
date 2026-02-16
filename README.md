@@ -37,3 +37,6 @@ Enter virtual environment with
 Run to start
 
     python3 main.py
+
+## Documentation
+See the [documentation file](documentation.md).
