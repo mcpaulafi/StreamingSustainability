@@ -39,7 +39,7 @@ Run given command which looks like this
 
 Run to start
 
-    python3 main.py
+    poetry run python3 src/main.py
 
 ## Documentation
 See the [documentation file](documentation.md).
