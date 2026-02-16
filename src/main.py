@@ -3,15 +3,16 @@ import experiment
 import settings
 import measurement
 
-def start_experiment(experiment1: experiment.Experiment):
+experiment1 = experiment.Experiment()
+
+def start_experiment(exp: experiment.Experiment):
     """Starts the experiment after user confirmation."""
     if input("Type 'y' to begin experiment, 'n' to exit: ").strip().lower() != "y":
-        print("Experiment not started. Exiting.")
-        return
-    return measurement.execute_experiment(experiment1)
+        return False
+    return measurement.execute_experiment(exp)
 
 
-def save_results(input_value: str, experiment1: experiment.Experiment):
+def save_results(input_value: str, exp: experiment.Experiment):
     """Saves the experiment results to a file if user confirms.
     Saves results in a 'results' directory with a filename based on the experiment ID.
     Saves experiment class attributes and results in a human-readable format."""
@@ -21,15 +22,15 @@ def save_results(input_value: str, experiment1: experiment.Experiment):
         return
     results_dir = Path("results")
     results_dir.mkdir(exist_ok=True)
-    filename = results_dir / f"experiment_{experiment1.id}.txt"
-    with open(filename, "w") as f:
-        f.write(str(experiment1.results()))
+    filename = results_dir / f"experiment_{exp.id}.txt"
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(str(exp.results()))
         print(f"Results saved to {filename}")
 
 # Main execution flow
 # Ask user to select experiment parameters.
 #TODO: Add error handling for user input and file operations.
-experiment1 = experiment.Experiment()
+
 experiment1.set_type(settings.choose_experiment_type())
 experiment1.set_resolution(settings.choose_resolution())
 experiment1.set_battery(settings.choose_battery())
