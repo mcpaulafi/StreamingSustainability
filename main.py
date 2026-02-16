@@ -1,8 +1,7 @@
+from pathlib import Path
 import experiment
 import settings
 import measurement
-import os
-from pathlib import Path
 
 def start_experiment(experiment1: experiment.Experiment):
     """Starts the experiment after user confirmation."""
