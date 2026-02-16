@@ -40,8 +40,5 @@ def execute_experiment(experiment1):
         float(subprocess.check_output(battery_value_command, shell=True).decode().strip())
     )
 
-    print("Experiment completed.\nRESULTS:\n")
-    print("Battery consumption:", experiment1.return_battery_consumption(), "Wh")
-    print("Network consumption:", experiment1.return_network_consumption(), "bytes")
     # TODO: If consumption is negative or zero, promt an error
-    return
+    return True

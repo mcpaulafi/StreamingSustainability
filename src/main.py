@@ -8,9 +8,8 @@ def start_experiment(experiment1: experiment.Experiment):
     if input("Type 'y' to begin experiment, 'n' to exit: ").strip().lower() != "y":
         print("Experiment not started. Exiting.")
         return
-    measurement.execute_experiment(experiment1)
-    save_results(input("Type 'y' to save results: ").strip().lower(), experiment1)
-    return
+    return measurement.execute_experiment(experiment1)
+
 
 def save_results(input_value: str, experiment1: experiment.Experiment):
     """Saves the experiment results to a file if user confirms.
@@ -46,6 +45,11 @@ print("Selected length:", experiment1.length)
 
 print("\nREADY TO START EXPERIMENT. Start streaming.")
 
-start_experiment(experiment1)
+if start_experiment(experiment1):
+    print("Battery consumption:", experiment1.return_battery_consumption(), "Wh")
+    print("Network consumption:", experiment1.return_network_consumption(), "bytes")
+    save_results(input("Type 'y' to save results: ").strip().lower(), experiment1)
+else:
+    print("Experiment execution failed or was not started.")
 
 print("\nEND.")
