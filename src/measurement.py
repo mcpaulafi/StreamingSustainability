@@ -1,5 +1,5 @@
 import subprocess
-from . import settings
+import settings
 
 def execute_experiment(experiment1):
     """Executes the experiment by measuring time, network, and battery 
