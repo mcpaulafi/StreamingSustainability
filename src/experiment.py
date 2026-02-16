@@ -1,5 +1,5 @@
 import uuid
-import settings
+from . import settings
 
 class Experiment:
     """Parent class for all experiments. Contains common methods and attributes."""

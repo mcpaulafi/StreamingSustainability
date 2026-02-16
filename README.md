@@ -34,6 +34,9 @@ Enter virtual environment with
 
     poetry env activate
 
+Run given command which looks like this
+    source /home/.../.venv/bin/activate
+
 Run to start
 
     python3 main.py
