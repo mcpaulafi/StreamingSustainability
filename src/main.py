@@ -1,4 +1,5 @@
 from pathlib import Path
+import csv
 import experiment
 import settings
 import measurement
@@ -13,19 +14,31 @@ def start_experiment(exp: experiment.Experiment):
 
 
 def save_results(input_value: str, exp: experiment.Experiment):
-    """Saves the experiment results to a file if user confirms.
-    Saves results in a 'results' directory with a filename based on the experiment ID.
+    """Saves the experiment results to a CSV file if user confirms.
+    Saves results in a 'results/' directory with a filename based on the experiment ID.
     Saves experiment class attributes and results in a human-readable format."""
-    #TODO: Save as JSON or CSV for easier parsing later.
+
     if input_value.strip().lower() != "y":
         print("Results not saved.")
-        return
+        return False
+
+    fieldnames = [
+        "id", "type", "resolution", "battery", "network", "length",
+        "time_start", "time_end", "battery_start", "battery_end",
+        "network_start", "network_end", "battery_consumption",
+        "network_consumption"
+    ]
     results_dir = Path("results")
     results_dir.mkdir(exist_ok=True)
-    filename = results_dir / f"experiment_{exp.id}.txt"
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(str(exp.results()))
-        print(f"Results saved to {filename}")
+    filename = results_dir / f"experiment_{exp.id}.csv"
+
+    with open(filename, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerow(exp.results())
+        #writer.writerow({k: getattr(exp, k, "") for k in fieldnames})
+    print(f"Results saved to {filename}")
+    return True
 
 # Main execution flow
 # Ask user to select experiment parameters.
