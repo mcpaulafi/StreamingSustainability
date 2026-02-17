@@ -69,6 +69,10 @@ def choose_resolution() -> str:
             return choice
         print("Choice not in available resolution types; try again.")
 
+def return_resolution_types() -> dict:
+    """Returns the available resolution types."""
+    return resolution_types
+
 def choose_battery()-> str:
     """Prompts the user to select a battery type from the available options."""
     print("Select battery type:")
