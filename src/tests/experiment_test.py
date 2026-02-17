@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime
 import experiment
 import settings
 
@@ -10,8 +11,8 @@ class TestExperiment(unittest.TestCase):
         self.exp.set_battery(1)
         self.exp.set_network(1)
         self.exp.set_length(1)
-        self.exp.set_time_start("1770815525")
-        self.exp.set_time_end("1770815550")
+        self.exp.set_time_start(1770815525)
+        self.exp.set_time_end(1770815550)
         self.exp.set_battery_start(100)
         self.exp.set_battery_end(80)
         self.exp.set_network_start(50)
@@ -116,7 +117,6 @@ class TestExperiment(unittest.TestCase):
     def test_results_method(self):
         """Test that the results method returns a dictionary with expected keys and values."""
 
-
         results = self.exp.results()
         self.assertIsInstance(results, dict)
         self.assertEqual(results["type"], settings.experiment_types.get(self.exp.type, "Unknown"))
@@ -124,8 +124,8 @@ class TestExperiment(unittest.TestCase):
         self.assertEqual(results["battery"], settings.battery_types.get(self.exp.battery, "Unknown"))
         self.assertEqual(results["network"], settings.network_types.get(self.exp.network, "Unknown"))
         self.assertEqual(results["length"], settings.length_types.get(self.exp.length, "Unknown"))
-        self.assertEqual(results["time_start"], "1770815525")
-        self.assertEqual(results["time_end"], "1770815550")
+        self.assertEqual(results["time_start"], "2026-02-11 15:12:05")
+        self.assertEqual(results["time_end"], "2026-02-11 15:12:30")
         self.assertEqual(results["battery_start"], 100)
         self.assertEqual(results["battery_end"], 80)
         self.assertEqual(results["network_start"], 50)

@@ -59,12 +59,12 @@ class Experiment:
         return self.network_end - self.network_start
 
     def return_time_start(self):
-        dt = datetime.fromtimestamp(self.time_start)
-        return dt # e.g. 2026-02-16 14:40:50
+        dt = datetime.fromtimestamp(int(self.time_start))
+        return str(dt) # e.g. 2026-02-16 14:40:50
 
     def return_time_end(self):
-        dt = datetime.fromtimestamp(self.time_end)
-        return dt # e.g. 2026-02-16 14:40:50
+        dt = datetime.fromtimestamp(int(self.time_end))
+        return str(dt) # e.g. 2026-02-16 14:40:50
 
     def results(self):
         return {
