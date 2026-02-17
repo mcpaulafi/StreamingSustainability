@@ -22,7 +22,8 @@ def save_results(experiments: list):
     results_dir = Path("results")
     results_dir.mkdir(exist_ok=True)
     file_id = datetime.now().strftime("%Y%m%d%H%M")
-    filename = results_dir / f"experiment_{file_id}.csv"
+    file_type = settings.experiment_types.get(experiments[0].type, "Unknown") if experiments else "Unknown"
+    filename = results_dir / f"experiment_{file_type[0:5]}_{file_id}.csv"
 
     with open(filename, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=experiments[0].get_parameters())
