@@ -76,6 +76,11 @@ class Experiment:
             "resolution": settings.resolution_types.get(self.resolution, "Unknown")
         }
 
+    def get_parameters(self):
+        return ["id", "type", "resolution","battery","network","length",
+                "time_start","time_end","battery_start","battery_end",
+                "network_start","network_end","battery_consumption","network_consumption"]
+
     def results(self):
         return {
             "id": self.id,

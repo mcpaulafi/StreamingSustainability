@@ -19,9 +19,10 @@ def get_battery_value(battery_key):
         f"awk '{{print $2}}' | sed 's/Wh//g'"
     )
     try:
-        battery_value = float(subprocess.check_output(battery_value_command, shell=True).decode().strip())
+        battery_value = float(subprocess.check_output(battery_value_command,
+                        shell=True).decode().strip())
         return battery_value
-    except Exception as e:
+    except (subprocess.CalledProcessError, ValueError) as e:
         print("Error getting battery value:", e)
         return None
 
@@ -32,9 +33,10 @@ def get_network_value(network_key):
         f"/statistics/rx_bytes"
     )
     try:
-        network_value = int(subprocess.check_output(network_value_command, shell=True).decode().strip())
+        network_value = int(subprocess.check_output(network_value_command,
+                        shell=True).decode().strip())
         return network_value
-    except Exception as e:
+    except (subprocess.CalledProcessError, ValueError) as e:
         print("Error getting network value:", e)
         return None
 

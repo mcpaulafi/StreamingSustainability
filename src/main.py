@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 from datetime import datetime
 import csv
@@ -5,30 +6,26 @@ import experiment
 import settings
 import measurement
 
+experiment_list = []
+
 def start_experiment(exp: experiment.Experiment):
     """Starts the experiment after user confirmation."""
     if input("Start experiment (y/n): ").strip().lower() != "y":
         return False
     return measurement.execute_experiment(exp)
 
-def save_results(experiments):
+def save_results(experiments: list):
     """Saves the experiment results to a CSV file if user confirms.
     Saves results in a 'results/' directory with a filename based on the experiment ID.
     Saves experiment class attributes and results in a human-readable format."""
 
-    fieldnames = [
-        "id", "type", "resolution", "battery", "network", "length",
-        "time_start", "time_end", "battery_start", "battery_end",
-        "network_start", "network_end", "battery_consumption",
-        "network_consumption"
-    ]
     results_dir = Path("results")
     results_dir.mkdir(exist_ok=True)
     file_id = datetime.now().strftime("%Y%m%d%H%M")
     filename = results_dir / f"experiment_{file_id}.csv"
 
     with open(filename, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=experiments[0].get_parameters())
         writer.writeheader()
         for exp in experiments:
             writer.writerow(exp.results())
@@ -38,17 +35,15 @@ def save_results(experiments):
 # Test if energy and network values are accessible and working
 if not measurement.get_time():
     print("Time value from bash not accessible. Exiting.")
-    exit(1)
+    sys.exit()
 
 if not settings.find_energy_sources():
     print("Energy sources not found. Exiting.", settings.find_energy_sources())
-    exit(1)
+    sys.exit()
 
 if not settings.find_network_interfaces():
     print("Network interfaces not found. Exiting.")
-    exit(1)
-
-experiments = []
+    sys.exit()
 
 # Main execution flow
 while True:
@@ -58,12 +53,12 @@ while True:
     # Check if battery value is accessible before proceeding with the experiment.
     if measurement.get_battery_value(exp_battery) is None:
         print("Battery value not accessible. Exiting.")
-        exit(1)
+        sys.exit()
     exp_network = settings.choose_network()
     # Check if network value is accessible before proceeding with the experiment.
     if measurement.get_network_value(exp_network) is None:
         print("Network value not accessible. Exiting.")
-        exit(1)
+        sys.exit()
     exp_length = settings.choose_length()
 
     for res in settings.resolution_types:
@@ -81,7 +76,7 @@ while True:
 
         # Start experiment and save results if it was executed successfully.
         if start_experiment(experiment1):
-            experiments.append(experiment1)
+            experiment_list.append(experiment1)
             print("\tBattery consumption:", experiment1.return_battery_consumption(), "Wh")
             print("\tNetwork consumption:", experiment1.return_network_consumption(), "bytes")
             if input("Continue experiment? (y/n): ").lower() != "y":
@@ -90,8 +85,7 @@ while True:
             print("Experiment execution was ended, failed or was not started.")
             break
 
-    
-    save_results(experiments)
+    save_results(experiment_list)
 
     break
 
