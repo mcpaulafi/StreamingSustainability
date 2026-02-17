@@ -1,4 +1,4 @@
-import uuid
+import datetime
 import settings
 # pylint: disable=too-many-instance-attributes
 
@@ -6,7 +6,7 @@ class Experiment:
     """Parent class for all experiments. Contains common methods and attributes."""
 
     def __init__(self):
-        self.id = uuid.uuid4().hex
+        self.id = datetime.datetime.now().strftime("%Y%m%d%H%M")
         self.type = None
         self.resolution = None
         self.battery = None
