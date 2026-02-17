@@ -1,26 +1,30 @@
 from pathlib import Path
+from datetime import datetime
 import csv
 import experiment
 import settings
 import measurement
 
-experiment1 = experiment.Experiment()
-
 def start_experiment(exp: experiment.Experiment):
     """Starts the experiment after user confirmation."""
-    if input("Type 'y' to begin experiment, 'n' to exit: ").strip().lower() != "y":
+    if input("Start experiment (y/n): ").strip().lower() != "y":
         return False
     return measurement.execute_experiment(exp)
 
+def print_experiment_parameters(exp: experiment.Experiment):
+    """Prints the selected experiment parameters in a human-readable format."""
+    print("\nSELECTED PARAMETERS:")
+    print("\tType:", settings.experiment_types.get(exp.type, "Unknown"))
+    print("\tBattery:", settings.battery_types.get(exp.battery, "Unknown"))
+    print("\tNetwork:", settings.network_types.get(exp.network, "Unknown"))
+    print("\tLength:", settings.length_types.get(exp.length, "Unknown"))
+    print("\tResolution:", settings.resolution_types.get(exp.resolution, "Unknown"))
+    return
 
-def save_results(input_value: str, exp: experiment.Experiment):
+def save_results(experiments):
     """Saves the experiment results to a CSV file if user confirms.
     Saves results in a 'results/' directory with a filename based on the experiment ID.
     Saves experiment class attributes and results in a human-readable format."""
-
-    if input_value.strip().lower() != "y":
-        print("Results not saved.")
-        return False
 
     fieldnames = [
         "id", "type", "resolution", "battery", "network", "length",
@@ -30,40 +34,55 @@ def save_results(input_value: str, exp: experiment.Experiment):
     ]
     results_dir = Path("results")
     results_dir.mkdir(exist_ok=True)
-    filename = results_dir / f"experiment_{exp.id}.csv"
+    file_id = datetime.now().strftime("%Y%m%d%H%M")
+    filename = results_dir / f"experiment_{file_id}.csv"
 
     with open(filename, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerow(exp.results())
-        #writer.writerow({k: getattr(exp, k, "") for k in fieldnames})
+        for exp in experiments:
+            writer.writerow(exp.results())
     print(f"Results saved to {filename}")
     return True
 
 # Main execution flow
 # Ask user to select experiment parameters.
-#TODO: Add error handling for user input and file operations.
 
-experiment1.set_type(settings.choose_experiment_type())
-experiment1.set_resolution(settings.choose_resolution())
-experiment1.set_battery(settings.choose_battery())
-experiment1.set_network(settings.choose_network())
-experiment1.set_length(settings.choose_length())
+experiments = []
 
-# Print selected parameters for confirmation before starting the experiment.
-print("Selected experiment type:", experiment1.type)
-print("Selected resolution:", experiment1.resolution)
-print("Selected battery:", experiment1.battery)
-print("Selected network:", experiment1.network)
-print("Selected length:", experiment1.length)
+while True:
+    exp_type = settings.choose_experiment_type()
+    exp_battery = settings.choose_battery()
+    exp_network = settings.choose_network()
+    exp_length = settings.choose_length()
 
-print("\nREADY TO START EXPERIMENT. Start streaming.")
+    for res in settings.resolution_types:
+        """Loop all resolutions for the selected experiment parameters."""
+        experiment1 = experiment.Experiment()
+        experiment1.set_type(exp_type)
+        experiment1.set_battery(exp_battery)
+        experiment1.set_network(exp_network)
+        experiment1.set_length(exp_length)
+        experiment1.set_resolution(res)
+        print_experiment_parameters(experiment1)
 
-if start_experiment(experiment1):
-    print("Battery consumption:", experiment1.return_battery_consumption(), "Wh")
-    print("Network consumption:", experiment1.return_network_consumption(), "bytes")
-    save_results(input("Type 'y' to save results: ").strip().lower(), experiment1)
-else:
-    print("Experiment execution failed or was not started.")
+        print("\nSTART STREAMING: ", settings.experiment_types.get(exp_type, "Unknown"), " ",
+              settings.resolution_types.get(res, "Unknown"))
+
+        if start_experiment(experiment1):
+            experiments.append(experiment1)
+            print("\tBattery consumption:", experiment1.return_battery_consumption(), "Wh")
+            print("\tNetwork consumption:", experiment1.return_network_consumption(), "bytes")
+            if input("Continue experiment? (y/n): ").lower() != "y":
+                break
+
+        else:
+            print("Experiment execution failed or was not started.")
+            break
+
+    
+    save_results(experiments)
+
+    break
 
 print("\nEND.")

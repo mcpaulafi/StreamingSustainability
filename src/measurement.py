@@ -4,7 +4,7 @@ import settings
 def execute_experiment(experiment1):
     """Executes the experiment by measuring time, network, and battery 
     values before and after a sleep period based on the experiment length."""
-    #TODO: Consider which time value is most relevant for reporting
+
     time_value_command = "date +%s"
     network_value_command = (
         f"cat /sys/class/net/{settings.network_types[experiment1.network]}"
