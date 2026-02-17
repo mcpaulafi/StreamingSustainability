@@ -17,26 +17,26 @@ def find_energy_sources():
     result = subprocess.run(["upower", "-e"], capture_output=True, text=True, check=False)
     if result.returncode != 0:
         print("Error finding energy sources:", result.stderr)
-        return
+        return False
     key = 1
     for line in result.stdout.splitlines():
         line = line.replace("/org/freedesktop/UPower/devices/", "")
         battery_types[key] = line
         key += 1
     #print("Battery types:", battery_types)
-    return
+    return True
 find_energy_sources()
 
 def find_network_interfaces():
     """Find out network interfaces of the computer"""
     if not os.path.exists("/sys/class/net"):
         print("Network interfaces directory not found.")
-        return
+        return False
     key = 1
     for iface in os.listdir("/sys/class/net"):
         network_types[key] = iface
         key += 1
-    return
+    return True
 find_network_interfaces()
 
 def choose_experiment_type() -> str:

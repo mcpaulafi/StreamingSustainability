@@ -11,16 +11,6 @@ def start_experiment(exp: experiment.Experiment):
         return False
     return measurement.execute_experiment(exp)
 
-def print_experiment_parameters(exp: experiment.Experiment):
-    """Prints the selected experiment parameters in a human-readable format."""
-    print("\nSELECTED PARAMETERS:")
-    print("\tType:", settings.experiment_types.get(exp.type, "Unknown"))
-    print("\tBattery:", settings.battery_types.get(exp.battery, "Unknown"))
-    print("\tNetwork:", settings.network_types.get(exp.network, "Unknown"))
-    print("\tLength:", settings.length_types.get(exp.length, "Unknown"))
-    print("\tResolution:", settings.resolution_types.get(exp.resolution, "Unknown"))
-    return
-
 def save_results(experiments):
     """Saves the experiment results to a CSV file if user confirms.
     Saves results in a 'results/' directory with a filename based on the experiment ID.
@@ -45,39 +35,59 @@ def save_results(experiments):
     print(f"Results saved to {filename}")
     return True
 
-# Main execution flow
-# Ask user to select experiment parameters.
+# Test if energy and network values are accessible and working
+if not measurement.get_time():
+    print("Time value from bash not accessible. Exiting.")
+    exit(1)
+
+if not settings.find_energy_sources():
+    print("Energy sources not found. Exiting.", settings.find_energy_sources())
+    exit(1)
+
+if not settings.find_network_interfaces():
+    print("Network interfaces not found. Exiting.")
+    exit(1)
 
 experiments = []
 
+# Main execution flow
 while True:
+    # Ask user to select experiment parameters.
     exp_type = settings.choose_experiment_type()
     exp_battery = settings.choose_battery()
+    # Check if battery value is accessible before proceeding with the experiment.
+    if measurement.get_battery_value(exp_battery) is None:
+        print("Battery value not accessible. Exiting.")
+        exit(1)
     exp_network = settings.choose_network()
+    # Check if network value is accessible before proceeding with the experiment.
+    if measurement.get_network_value(exp_network) is None:
+        print("Network value not accessible. Exiting.")
+        exit(1)
     exp_length = settings.choose_length()
 
     for res in settings.resolution_types:
-        """Loop all resolutions for the selected experiment parameters."""
+        # Loop all resolutions for the selected experiment parameters.
         experiment1 = experiment.Experiment()
         experiment1.set_type(exp_type)
         experiment1.set_battery(exp_battery)
         experiment1.set_network(exp_network)
         experiment1.set_length(exp_length)
         experiment1.set_resolution(res)
-        print_experiment_parameters(experiment1)
+        experiment1.get_basic_settings()
 
         print("\nSTART STREAMING: ", settings.experiment_types.get(exp_type, "Unknown"), " ",
               settings.resolution_types.get(res, "Unknown"))
 
+        # Start experiment and save results if it was executed successfully.
         if start_experiment(experiment1):
             experiments.append(experiment1)
             print("\tBattery consumption:", experiment1.return_battery_consumption(), "Wh")
             print("\tNetwork consumption:", experiment1.return_network_consumption(), "bytes")
             if input("Continue experiment? (y/n): ").lower() != "y":
                 break
-
         else:
-            print("Experiment execution failed or was not started.")
+            print("Experiment execution was ended, failed or was not started.")
             break
 
     

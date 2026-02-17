@@ -66,6 +66,16 @@ class Experiment:
         dt = datetime.fromtimestamp(int(self.time_end))
         return str(dt) # e.g. 2026-02-16 14:40:50
 
+    def get_basic_settings(self):
+        return {
+            "id": self.id,
+            "type": settings.experiment_types.get(self.type, "Unknown"),
+            "battery": settings.battery_types.get(self.battery, "Unknown"),
+            "network": settings.network_types.get(self.network, "Unknown"),
+            "length": settings.length_types.get(self.length, "Unknown"),
+            "resolution": settings.resolution_types.get(self.resolution, "Unknown")
+        }
+
     def results(self):
         return {
             "id": self.id,
