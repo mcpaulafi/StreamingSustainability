@@ -18,6 +18,7 @@ class Experiment:
         self.battery_end = 0
         self.network_start = 0
         self.network_end = 0
+        self.processes = None
 
     def set_type(self, type1):
         self.type = type1
@@ -52,6 +53,9 @@ class Experiment:
     def set_network_end(self, network_end):
         self.network_end = network_end
 
+    def set_processes(self, processes):
+        self.processes = processes
+
     def return_battery_consumption(self):
         return self.battery_start - self.battery_end
 
@@ -79,7 +83,7 @@ class Experiment:
     def get_parameters(self):
         return ["id", "type", "resolution","battery","network","length",
                 "time_start","time_end","battery_start","battery_end",
-                "network_start","network_end","battery_consumption","network_consumption"]
+                "network_start","network_end","battery_consumption","network_consumption", "processes"]
 
     def results(self):
         return {
@@ -96,7 +100,8 @@ class Experiment:
             "network_start": self.network_start,
             "network_end": self.network_end,
             "battery_consumption": self.return_battery_consumption(),
-            "network_consumption": self.return_network_consumption()
+            "network_consumption": self.return_network_consumption(),
+            "processes": self.processes
         }
 
     def __str__(self):

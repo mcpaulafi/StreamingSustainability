@@ -6,7 +6,6 @@ experiment_types = {1: "YleAreena", 2: "YouTube", 3: "Disney+",
                     4: "Other service", 5: "None"}
 resolution_types = {1: "Lowest", 2: "Middle", 3: "Highest"}
 length_types = {1: "1 minute", 2: "2 minutes", 5: "5 minutes"}
-#interval_types = {10: "10 seconds", 20: "20 seconds"}
 
 # Values retrieved from the system
 battery_types = {}

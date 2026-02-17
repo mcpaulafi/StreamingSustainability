@@ -40,6 +40,18 @@ def get_network_value(network_key):
         print("Error getting network value:", e)
         return None
 
+def get_processes():
+    """Gets the list of processes running on the system."""
+    processes_command = "ps -eo pid,cmd,%cpu,%mem --sort=-%cpu | awk 'NR==1 || $3+0 > 1'"
+    try:
+        processes_output = subprocess.check_output(processes_command, shell=True).decode()
+        processes = processes_output.splitlines(keepends=True)
+        return processes
+    except subprocess.CalledProcessError as e:
+        print("Error getting processes:", e)
+        return None
+
+
 def execute_experiment(experiment1):
     """Executes the experiment by measuring time, network, and battery 
     values before and after a sleep period based on the experiment length."""
@@ -48,6 +60,7 @@ def execute_experiment(experiment1):
 
     experiment1.set_network_start(get_network_value(experiment1.network))
     experiment1.set_battery_start(get_battery_value(experiment1.battery))
+    experiment1.set_processes(get_processes())
 
     wait_time = int(experiment1.length) * 60
     print(f"Running experiment for {wait_time} seconds...")
