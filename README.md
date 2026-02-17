@@ -1,5 +1,7 @@
 ## README
 
+
+
 ## Sustainability experiment tool
 
 Aim of this project is to find out what kind of an impact an end-user can make on their energy and network consumption by selecting different resolution values for the streaming. During the experiment, a video-on-demand service will be streamed at a selected resolution for a certain period of time.
@@ -52,3 +54,6 @@ Run Coverage for Unittests
 Make report
 
     coverage report -m
+
+## Use of AI
+GitHub Copilot has been used as help to develop this code.
