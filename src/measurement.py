@@ -1,7 +1,9 @@
 import subprocess
+import time
 import settings
 
 def get_time():
+    """Gets the current time as a timestamp from the bash command."""
     time_value_command = "date +%s"
     time_stamp = int(subprocess.check_output(time_value_command, shell=True).decode().strip())
     if time_stamp <= 0:
@@ -10,6 +12,7 @@ def get_time():
     return time_stamp
 
 def get_battery_value(battery_key):
+    """Gets the current battery energy value in Wh for the specified battery key."""
     battery_value_command = (
         f"upower -i /org/freedesktop/UPower/devices/"
         f"{settings.battery_types[battery_key]} | grep 'energy:' | "
@@ -23,6 +26,7 @@ def get_battery_value(battery_key):
         return None
 
 def get_network_value(network_key):
+    """Gets the current network received bytes value for the specified network key."""
     network_value_command = (
         f"cat /sys/class/net/{settings.network_types[network_key]}"
         f"/statistics/rx_bytes"
@@ -38,11 +42,6 @@ def execute_experiment(experiment1):
     """Executes the experiment by measuring time, network, and battery 
     values before and after a sleep period based on the experiment length."""
 
-    network_value_command = (
-        f"cat /sys/class/net/{settings.network_types[experiment1.network]}"
-        f"/statistics/rx_bytes"
-    )
-
     experiment1.set_time_start(get_time())
 
     experiment1.set_network_start(get_network_value(experiment1.network))
@@ -50,7 +49,17 @@ def execute_experiment(experiment1):
 
     wait_time = int(experiment1.length) * 60
     print(f"Running experiment for {wait_time} seconds...")
-    subprocess.run(f"sleep {wait_time}", shell=True, check=True)
+    # If there is significant difference between bash time and python time counting,
+    # we can use this sleep method instead of while loop.
+#    subprocess.run(f"sleep {wait_time}", shell=True, check=True)
+
+    remaining = wait_time
+
+    while remaining > 0:
+        step = min(15, remaining)
+        time.sleep(step)
+        remaining -= step
+        print(f"{remaining} seconds left..")
 
     experiment1.set_time_end(get_time())
 
