@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 import settings
 # pylint: disable=too-many-instance-attributes
 
@@ -6,7 +6,7 @@ class Experiment:
     """Parent class for all experiments. Contains common methods and attributes."""
 
     def __init__(self):
-        self.id = datetime.datetime.now().strftime("%Y%m%d%H%M")
+        self.id = datetime.now().strftime("%Y%m%d%H%M")
         self.type = None
         self.resolution = None
         self.battery = None
@@ -58,6 +58,14 @@ class Experiment:
     def return_network_consumption(self):
         return self.network_end - self.network_start
 
+    def return_time_start(self):
+        dt = datetime.fromtimestamp(self.time_start)
+        return dt # e.g. 2026-02-16 14:40:50
+
+    def return_time_end(self):
+        dt = datetime.fromtimestamp(self.time_end)
+        return dt # e.g. 2026-02-16 14:40:50
+
     def results(self):
         return {
             "id": self.id,
@@ -66,8 +74,8 @@ class Experiment:
             "battery": settings.battery_types.get(self.battery, "Unknown"),
             "network": settings.network_types.get(self.network, "Unknown"),
             "length": settings.length_types.get(self.length, "Unknown"),
-            "time_start": self.time_start,
-            "time_end": self.time_end,
+            "time_start": self.return_time_start(),
+            "time_end": self.return_time_end(),
             "battery_start": self.battery_start,
             "battery_end": self.battery_end,
             "network_start": self.network_start,
