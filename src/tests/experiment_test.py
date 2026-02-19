@@ -97,6 +97,16 @@ class TestExperiment(unittest.TestCase):
         self.exp.set_network_end(70)
         self.assertEqual(self.exp.return_network_consumption(), 20)
 
+    def test_get_basic_settings(self):
+        """Test that get_basic_settings returns a dictionary with expected keys and values."""
+        settings_dict = self.exp.get_basic_settings()
+        self.assertIsInstance(settings_dict, dict)
+        self.assertEqual(settings_dict["type"], settings.experiment_types.get(self.exp.type, "Unknown"))
+        self.assertEqual(settings_dict["resolution"], settings.resolution_types.get(self.exp.resolution, "Unknown"))
+        self.assertEqual(settings_dict["battery"], settings.battery_types.get(self.exp.battery, "Unknown"))
+        self.assertEqual(settings_dict["network"], settings.network_types.get(self.exp.network, "Unknown"))
+        self.assertEqual(settings_dict["length"], settings.length_types.get(self.exp.length, "Unknown"))
+
     def test_str_method(self):
         """Test that the __str__ method returns a string containing key information."""
         result_str = str(self.exp)
