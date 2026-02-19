@@ -43,8 +43,10 @@ Run to start
 
     poetry run python3 src/main.py
 
-## Documentation
-See the [documentation file](documentation.md).
+## User manual and Documentation
+See the [user manual](usermanual.md).
+
+See the [documentation](documentation.md).
 
 ## Tests
 Run Coverage for Unittests
