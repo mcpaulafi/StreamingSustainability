@@ -19,6 +19,10 @@ def save_results(experiments: list):
     Saves results in a 'results/' directory with a filename based on the experiment ID.
     Saves experiment class attributes and results in a human-readable format."""
 
+    if experiments is None or len(experiments) == 0:
+        print("No experiments to save.")
+        return False
+
     results_dir = Path("results")
     results_dir.mkdir(exist_ok=True)
     file_id = datetime.now().strftime("%Y%m%d%H%M")
@@ -48,6 +52,7 @@ if not settings.find_network_interfaces():
 
 # Main execution flow
 while True:
+    print("\nEXPERIMENT SETTINGS")
     # Ask user to select experiment parameters.
     exp_type = settings.choose_experiment_type()
     exp_battery = settings.choose_battery()
@@ -80,7 +85,9 @@ while True:
             experiment_list.append(experiment1)
             print("\tBattery consumption:", experiment1.return_battery_consumption(), "Wh")
             print("\tNetwork consumption:", experiment1.return_network_consumption(), "bytes")
-            if input("Continue experiment? (y/n): ").lower() != "y":
+            if res == max(settings.resolution_types.keys()):
+                break
+            if input("Continue experiment (y/n): ").lower() != "y":
                 break
         else:
             print("Experiment execution was ended, failed or was not started.")
