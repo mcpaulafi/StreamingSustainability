@@ -57,5 +57,10 @@ Make report
 
     coverage report -m
 
+Make HTML report
+
+    coverage html
+
+
 ## Use of AI
 GitHub Copilot has been used as help to develop this code.
