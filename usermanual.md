@@ -47,3 +47,7 @@ This application retrieves network consumption data from the counter of the netw
 Battery consumption is the energy value retrieved from the battery interface. Notice that the power charger does not provide this information.
 
 In case these values are not available the application will not start.
+
+## Fixed settings
+
+You can find dictionary lists for experiment types, resolution types and length options on top of settings.py. Battery and network options are queried by the app from the operating system.
