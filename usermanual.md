@@ -34,7 +34,7 @@ You can continue to the middle resolution experiment by selecting y or end the e
 
 After the middle resolution experiment, you can then continue to highest resolution and repeat same steps.
 
-If you discontinue after any recording by selecting n, the data of all recorded resolutions is saved on a csv file, which name is provided on the screen.
+If you discontinue after any recording by selecting n or you finnish all 3 experiments, the data of all recorded resolutions is saved on a csv file. The name of the file is provided on the screen.
 
 
 ![Streaming Experiment 2](img/manual_experiment_2.png)
