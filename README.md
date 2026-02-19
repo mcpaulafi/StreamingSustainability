@@ -6,7 +6,7 @@
 
 Aim of this project is to find out what kind of an impact an end-user can make on their energy and network consumption by selecting different resolution values for the streaming. During the experiment, a video-on-demand service will be streamed at a selected resolution for a certain period of time.
 
-This application prompts the user basic settings of the experiment, and then records both energy and network data rate (tx) values on Linux before and after the experiment. The recorded values are used to calculate energy and network usage during the experiment.
+This program prompts the user basic settings of the experiment, and then records both energy and network data rate (tx) values on Linux before and after the experiment. The recorded values are used to calculate energy and network usage during the experiment.
 
 ### Background
 

@@ -1,7 +1,7 @@
 # User manual
 
 ## Run program
-After setting up poetry environment start program with shell command
+After setting up poetry environment start the program with shell command
 
     poetry run python3 src/main.py
 
@@ -14,13 +14,13 @@ First you are prompted options for experiment type (streaming service), battery 
 
 ## Recording experiments
 
-Then the application instructs you to do 3 recordings of different streaming resolutions.
+Then the program instructs you to do 3 recordings of different streaming resolutions.
 
     START STREAMING  Service  Lowest
 
 Set up selected streaming experiment in lowest resolution with full screen and leave it playing.
 
-Return to the application and  press y to start recording values for that resolution.
+Return to the program and  press y to start recording values for that resolution.
 
     Start experiment (y/n): y
 
@@ -42,12 +42,12 @@ If you discontinue after any recording by selecting n or you finnish all 3 exper
 
 ## Note on recorded values
 
-This application retrieves network consumption data from the counter of the network interface on Linux.
+This program retrieves network consumption data from the counter of the network interface on Linux.
 
 Battery consumption is the energy value retrieved from the battery interface. Notice that the power charger does not provide this information.
 
-In case these values are not available the application will not start.
+In case these values are not available the program will not start.
 
 ## Fixed settings
 
-You can find dictionary lists for experiment types, resolution types and length options on top of settings.py. Battery and network options are queried by the app from the operating system.
+You can find dictionary lists for experiment types, resolution types and length options on top of settings.py. Battery and network options are queried by the program from the operating system.
